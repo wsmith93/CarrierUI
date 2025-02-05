@@ -1,5 +1,3 @@
-/* Most of this functionality is a placeholder, just to have some kind of prototype UI, with static and arbitrary variables that we'll hopefully replace with dynamic variables. */
-
 document.addEventListener("DOMContentLoaded", () => {
     const inputField = document.getElementById("messageInput");
     const sendButton = document.getElementById("sendButton");
@@ -21,15 +19,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const channels = {
         general: [
-        	{ username: "Alice", avatar: "avatars/alice.png", text: "hi all", time: "10:00 AM" }
+            { username: "Alice", avatar: "avatars/alice.png", text: "Welcome to General!", time: "10:00 AM" }
         ],
         random: [
-        	{ username: "Bob", avatar: "avatars/bob.png", text: "birds are cool", time: "10:05 AM" },
-		{ username: "Charlie", avatar: "avatars/charlie.png", text: "i guess so", time: "10:07 AM" }
+            { username: "Bob", avatar: "avatars/bob.png", text: "Random thoughts here!", time: "10:05 AM" }
         ],
         tech: [
-		{ username: "Charlie", avatar: "avatars/charlie.png", text: "my PSU blew up...", time: "10:10 AM" },
-		{ username: "Alice", avatar: "avatars/alice.png", text: "RIP!", time: "10:12 AM" }
+            { username: "Charlie", avatar: "avatars/charlie.png", text: "Tech discussions go here.", time: "10:10 AM" }
         ]
     };
 
