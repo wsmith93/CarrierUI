@@ -1,3 +1,5 @@
+/* Most of this functionality is a placeholder, just to have some kind of prototype UI, with static and arbitrary variables that we'll hopefully replace with dynamic variables. */
+
 document.addEventListener("DOMContentLoaded", () => {
     const inputField = document.getElementById("messageInput");
     const sendButton = document.getElementById("sendButton");
