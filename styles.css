@@ -1,4 +1,4 @@
-/* General Styles */
+/* FUNDAMENTAL STYLES */
 * {
     margin: 0;
     padding: 0;
@@ -16,7 +16,7 @@ body {
     width: 100%;
 }
 
-/* Left Sidebar (Channels) */
+/* CHANNELS SIDEBAR */
 .left-sidebar {
     width: 20%;
     background: #2b2d31;
@@ -42,12 +42,12 @@ body {
     background: #3f4147;
 }
 .channel.active {
-    background: #5865F2; /* Highlight color for the selected channel */
+    background: #5865F2;
     font-weight: bold;
     color: white;
 }
 
-/* Main Chat Window */
+/* CHAT WINDOW */
 .chat-window {
     flex: 1;
     display: flex;
@@ -97,7 +97,7 @@ body {
     align-self: flex-end;
 }
 
-/* Right Sidebar (Users) */
+/* ONLINE USERS SIDEBAR */
 .right-sidebar {
     width: 15%;
     background: #2b2d31;
@@ -141,6 +141,7 @@ body {
     border-color: #747f8d;
 }
 
+/* TEXT INPUT FIELD */
 .input-area {
     display: flex;
     align-items: center;
@@ -177,7 +178,7 @@ body {
     background: #4752c4;
 }
 
-/* EMOJI BUTTON */
+/* EMOJI SELECTOR */
 #emojiButton {
     background: #5865F2;
     padding: 5px;
@@ -191,8 +192,6 @@ body {
 #emojiButton:hover {
     background: #4752c4;
 }
-
-/* EMOJI PICKER */
 .emoji-picker {
     position: absolute;
     bottom: 70px;
