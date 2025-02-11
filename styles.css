@@ -16,6 +16,21 @@ body {
     width: 100%;
 }
 
+/* LOGO */
+
+.app-logo {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    width: 200px;
+    height: auto;
+    z-index: 100;
+}
+
+.app-logo:hover {
+    opacity: 1; /* Fully visible on hover */
+}
+
 /* CHANNELS SIDEBAR */
 .left-sidebar {
     width: 20%;
@@ -26,8 +41,14 @@ body {
 }
 .left-sidebar h2 {
     font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.left-sidebar h3 {
+    font-size: 12px;
     margin-bottom: 15px;
 }
+
 .channel-list {
     list-style: none;
     padding: 0;
@@ -192,14 +213,79 @@ body {
 #emojiButton:hover {
     background: #4752c4;
 }
+
+.reactions {
+    display: flex;
+    gap: 5px;
+    margin-top: 5px;
+    flex-wrap: wrap;
+}
+.reaction {
+    background: #5865F2;
+    color: white;
+    padding: 3px 6px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+.reaction:hover {
+    background: #4752c4;
+}
+.reaction-controls {
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 50px; /* Aligns with message */
+    margin-top: 5px;
+}
+
+.reaction-button {
+    background: #5865F2;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 5px;
+    color: white;
+    transition: background 0.3s ease, opacity 0.3s ease;
+}
+
+.reaction-button:hover {
+    background: #4752C4;
+    opacity: 0.9;
+}
+
+/* General emoji picker styles */
 .emoji-picker {
+    z-index: 100;
+    background: white;
+    padding: 5px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Positioning for text input emoji picker */
+#emojiPickerContainer {
     position: absolute;
     bottom: 70px;
     left: 20px;
     display: none;
-    z-index: 10;
+    z-index: 150;
     background: white;
-    border-radius: 5px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
     padding: 5px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Positioning for reaction emoji picker */
+
+.reaction-picker {
+    position: absolute;
+    z-index: 200; /* Ensures it's above messages */
+    background: white;
+    padding: 5px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
 }
