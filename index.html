@@ -8,50 +8,60 @@
     <script src="https://cdn.jsdelivr.net/npm/emoji-mart@latest/dist/browser.js"></script>
 </head>
 <body>
-	<img src="img/logo.png" alt="Carrier Logo" class="app-logo">
+
+    <!-- APP LOGO -->
+    <img src="img/logo.png" alt="Carrier Logo" class="app-logo">
+
     <div class="container">
-        <!-- CHANNELS -->
+
+        <!-- LEFT SIDEBAR: CHANNEL LIST -->
         <div class="left-sidebar">
             <h2>IDSB DEMO CHATROOM</h2>
-			<h3>Share your thoughts!</h3>
+            <h3>Share your thoughts!</h3>
             <ul class="channel-list" id="channelList">
                 <li class="channel active" data-channel="general"># General</li>
                 <li class="channel" data-channel="random"># Random</li>
                 <li class="channel" data-channel="tech"># Tech</li>
             </ul>
         </div>
-        
-        <!-- CHAT WINDOW AND INPUT FIELD -->
+
+        <!-- CHAT WINDOW -->
         <div class="chat-window">
             <div class="chat-header" id="chatHeader"># General</div>
             <div class="messages" id="messages-container"></div>
+
+            <!-- MESSAGE INPUT AREA -->
             <div class="input-area">
                 <button id="emojiButton">😀</button>
+                <input type="file" id="fileInput" style="display: none;">
+                <button id="attachFileButton">📎</button>
                 <input type="text" id="messageInput" placeholder="Type a message...">
                 <button id="sendButton">Send</button>
-                <div id="emojiPickerContainer" class="emoji-picker"></div>
             </div>
         </div>
-        
-        <!-- USERS LIST -->
+
+        <!-- RIGHT SIDEBAR: USER LIST -->
         <div class="right-sidebar">
             <h2>Users</h2>
             <ul class="user-list">
                 <li class="user" data-status="online">
-                    <div class="avatar" style="background-image: url('avatars/alice.png');"></div><span>Alice</span>
-				</li>
-				<li class="user" data-status="online">
-					<div class="avatar" style="background-image: url('avatars/user.png');"></div><span>You</span>
-				</li>
+                    <div class="avatar" style="background-image: url('img/avatars/alice.png');"></div><span>Alice</span>
+                </li>
+                <li class="user" data-status="online">
+                    <div class="avatar" style="background-image: url('img/avatars/user.png');"></div><span>You</span>
+                </li>
                 <li class="user" data-status="away">
-                    <div class="avatar" style="background-image: url('avatars/bob.png');"></div><span>Bob</span>
+                    <div class="avatar" style="background-image: url('img/avatars/bob.png');"></div><span>Bob</span>
                 </li>
                 <li class="user" data-status="offline">
-                    <div class="avatar" style="background-image: url('avatars/charlie.png');"></div><span>Charlie</span>
+                    <div class="avatar" style="background-image: url('img/avatars/charlie.png');"></div><span>Charlie</span>
                 </li>
             </ul>
         </div>
+
     </div>
+
     <script src="script.js"></script>
+    
 </body>
 </html>

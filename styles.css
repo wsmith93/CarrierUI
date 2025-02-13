@@ -1,23 +1,24 @@
-/* FUNDAMENTAL STYLES */
+/* GENERAL STYLES */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: Arial, sans-serif;
 }
+
 body {
     display: flex;
     height: 100vh;
     background: #313338;
     color: white;
 }
+
 .container {
     display: flex;
     width: 100%;
 }
 
 /* LOGO */
-
 .app-logo {
     position: absolute;
     bottom: 30px;
@@ -28,10 +29,10 @@ body {
 }
 
 .app-logo:hover {
-    opacity: 1; /* Fully visible on hover */
+    opacity: 1;
 }
 
-/* CHANNELS SIDEBAR */
+/* LEFT SIDEBAR (CHANNEL LIST) */
 .left-sidebar {
     width: 20%;
     background: #2b2d31;
@@ -39,6 +40,7 @@ body {
     display: flex;
     flex-direction: column;
 }
+
 .left-sidebar h2 {
     font-size: 16px;
     margin-bottom: 5px;
@@ -51,17 +53,19 @@ body {
 
 .channel-list {
     list-style: none;
-    padding: 0;
 }
+
 .channel {
     padding: 10px;
     border-radius: 5px;
     cursor: pointer;
     transition: background 0.3s;
 }
+
 .channel:hover {
     background: #3f4147;
 }
+
 .channel.active {
     background: #5865F2;
     font-weight: bold;
@@ -75,6 +79,7 @@ body {
     flex-direction: column;
     background: #313338;
 }
+
 .chat-header {
     padding: 15px;
     font-size: 18px;
@@ -82,17 +87,21 @@ body {
     background: #2b2d31;
     text-align: center;
 }
+
+/* MESSAGE STYLING */
 .messages {
     flex: 1;
     padding: 20px;
     overflow-y: auto;
 }
+
 .message {
     display: flex;
     align-items: flex-start;
     gap: 10px;
     margin-bottom: 15px;
 }
+
 .message .avatar {
     width: 40px;
     height: 40px;
@@ -100,6 +109,7 @@ body {
     background-size: cover;
     background-position: center;
 }
+
 .message-content {
     background: #40444b;
     padding: 10px 15px;
@@ -108,42 +118,104 @@ body {
     display: flex;
     flex-direction: column;
 }
+
 .username {
     font-weight: bold;
     color: #7289da;
 }
+
 .time {
     font-size: 12px;
     color: gray;
     align-self: flex-end;
 }
 
-/* ONLINE USERS SIDEBAR */
+/* FILE & IMAGE UPLOADS */
+.chat-image {
+    max-width: 200px;
+    max-height: 150px;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+.chat-file {
+    display: block;
+    color: #7289da;
+    text-decoration: none;
+    margin-top: 5px;
+}
+
+.chat-file:hover {
+    text-decoration: underline;
+}
+
+/* FILE PREVIEW (BEFORE SENDING) */
+.file-preview {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+    padding: 5px;
+    background: #3b3d43;
+    border-radius: 5px;
+    max-width: 150px;
+    gap: 10px;
+}
+
+.file-preview-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.file-preview-img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.remove-file-button {
+    background: red;
+    color: white;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.remove-file-button:hover {
+    background: darkred;
+}
+
+/* RIGHT SIDEBAR (USER LIST) */
 .right-sidebar {
     width: 15%;
     background: #2b2d31;
     padding: 20px;
 }
+
 .right-sidebar h2 {
     font-size: 16px;
     margin-bottom: 15px;
 }
+
 .user-list {
     list-style: none;
-    padding: 0;
 }
 
-.user-list .user:hover {
-    background: #40444b;
-}
 .user {
     display: flex;
     align-items: center;
     gap: 10px;
     padding: 10px;
     cursor: pointer;
-	border-radius: 5px;
+    border-radius: 5px;
 }
+
+.user:hover {
+    background: #40444b;
+}
+
 .user .avatar {
     width: 40px;
     height: 40px;
@@ -152,12 +224,15 @@ body {
     background-position: center;
     border: 3px solid transparent;
 }
+
 .user[data-status="online"] .avatar {
     border-color: #43b581;
 }
+
 .user[data-status="away"] .avatar {
     border-color: #faa61a;
 }
+
 .user[data-status="offline"] .avatar {
     border-color: #747f8d;
 }
@@ -169,7 +244,9 @@ body {
     padding: 15px;
     background: #40444b;
     border-top: 2px solid #2b2d31;
+    gap: 10px;
 }
+
 .input-area input {
     flex: 1;
     padding: 12px;
@@ -181,45 +258,70 @@ body {
     font-size: 14px;
     padding-left: 10px;
 }
+
 .input-area input::placeholder {
     color: #888;
 }
+
 .input-area button {
-    margin-left: 10px;
-    padding: 12px 15px;
+    margin-left: 5px;
+    padding: 5px;
     background: #5865F2;
     border: none;
     color: white;
     cursor: pointer;
     border-radius: 5px;
-    font-size: 14px;
+    font-size: 20px;
     transition: background 0.3s ease;
 }
+
 .input-area button:hover {
     background: #4752c4;
 }
 
-/* EMOJI SELECTOR */
+/* EMOJI PICKERS */
 #emojiButton {
     background: #5865F2;
     padding: 5px;
     border: none;
     font-size: 20px;
     cursor: pointer;
-    margin-right: 10px;
     border-radius: 5px;
     transition: background 0.3s ease;
 }
+
 #emojiButton:hover {
     background: #4752c4;
 }
 
+.emoji-picker {
+    z-index: 100;
+    background: white;
+    padding: 5px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+#emojiPickerContainer {
+    position: absolute;
+    bottom: 70px;
+    left: 20px;
+    display: none;
+    z-index: 150;
+    background: white;
+    padding: 5px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* REACTIONS */
 .reactions {
     display: flex;
     gap: 5px;
     margin-top: 5px;
     flex-wrap: wrap;
 }
+
 .reaction {
     background: #5865F2;
     color: white;
@@ -231,16 +333,12 @@ body {
     align-items: center;
     gap: 3px;
 }
+
 .reaction:hover {
     background: #4752c4;
 }
-.reaction-controls {
-    display: flex;
-    justify-content: flex-start;
-    margin-left: 50px; /* Aligns with message */
-    margin-top: 5px;
-}
 
+/* REACTION BUTTON */
 .reaction-button {
     background: #5865F2;
     border: none;
@@ -257,33 +355,10 @@ body {
     opacity: 0.9;
 }
 
-/* General emoji picker styles */
-.emoji-picker {
-    z-index: 100;
-    background: white;
-    padding: 5px;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-/* Positioning for text input emoji picker */
-#emojiPickerContainer {
-    position: absolute;
-    bottom: 70px;
-    left: 20px;
-    display: none;
-    z-index: 150;
-    background: white;
-    padding: 5px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-}
-
-/* Positioning for reaction emoji picker */
-
+/* REACTION PICKER */
 .reaction-picker {
     position: absolute;
-    z-index: 200; /* Ensures it's above messages */
+    z-index: 200;
     background: white;
     padding: 5px;
     border-radius: 10px;

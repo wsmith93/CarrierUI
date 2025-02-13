@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // ELEMENT SELECTION
     const inputField = document.getElementById("messageInput");
     const sendButton = document.getElementById("sendButton");
     const emojiButton = document.getElementById("emojiButton");
@@ -6,42 +7,90 @@ document.addEventListener("DOMContentLoaded", () => {
     const messagesContainer = document.getElementById("messages-container");
     const channelList = document.getElementById("channelList");
     const chatHeader = document.getElementById("chatHeader");
+    const fileInput = document.getElementById("fileInput");
+    const attachFileButton = document.getElementById("attachFileButton");
 
-    let chatEmojiPickerVisible = false;
+    let activePicker = null; // Tracks the currently open picker
 
+    // TEXT INPUT EMOJI PICKER
     emojiButton.addEventListener("click", (event) => {
         event.stopPropagation();
-
-        if (emojiPickerContainer.style.display === "none") {
-            closeAllEmojiPickers();
-
-            emojiPickerContainer.innerHTML = "";
-            const picker = new EmojiMart.Picker({
-                set: "apple",
-                onEmojiSelect: (emoji) => {
-                    inputField.value += emoji.native;
-                    emojiPickerContainer.style.display = "none";
-                }
-            });
-
-            emojiPickerContainer.appendChild(picker);
-            emojiPickerContainer.style.display = "block";
-        } else {
-            emojiPickerContainer.style.display = "none";
+        if (activePicker) {
+            activePicker.remove();
+            activePicker = null;
+            if (activePicker === emojiPickerContainer) return;
         }
+
+        const pickerContainer = document.createElement("div");
+        pickerContainer.classList.add("emoji-picker");
+        pickerContainer.style.position = "absolute";
+        pickerContainer.style.bottom = "60px";
+        pickerContainer.style.left = `${emojiButton.offsetLeft}px`;
+        pickerContainer.style.zIndex = "100";
+
+        const picker = new EmojiMart.Picker({
+            set: "apple",
+            onEmojiSelect: (emoji) => {
+                inputField.value += emoji.native;
+                pickerContainer.remove();
+                activePicker = null;
+            }
+        });
+
+        pickerContainer.appendChild(picker);
+        document.body.appendChild(pickerContainer);
+        activePicker = pickerContainer;
     });
 
+    // FILE UPLOAD HANDLING
+    attachFileButton.addEventListener("click", () => fileInput.click());
+
+    fileInput.addEventListener("change", () => {
+        if (fileInput.files.length > 0) showFilePreview(fileInput.files[0]);
+    });
+
+    const filePreviewContainer = document.createElement("div");
+    filePreviewContainer.classList.add("file-preview");
+    document.querySelector(".input-area").insertBefore(filePreviewContainer, inputField);
+
+    function showFilePreview(file) {
+        filePreviewContainer.innerHTML = "";
+        const previewElement = document.createElement("div");
+        previewElement.classList.add("file-preview-item");
+
+        if (file.type.startsWith("image/")) {
+            const img = document.createElement("img");
+            img.src = URL.createObjectURL(file);
+            img.classList.add("file-preview-img");
+            previewElement.appendChild(img);
+        } else {
+            const fileName = document.createElement("span");
+            fileName.textContent = file.name;
+            previewElement.appendChild(fileName);
+        }
+
+        const removeButton = document.createElement("button");
+        removeButton.textContent = "✖";
+        removeButton.classList.add("remove-file-button");
+        removeButton.addEventListener("click", () => {
+            fileInput.value = "";
+            filePreviewContainer.innerHTML = "";
+        });
+
+        previewElement.appendChild(removeButton);
+        filePreviewContainer.appendChild(previewElement);
+    }
+
+    // CHANNEL DATA
     const channels = {
-        general: [
-            { username: "Alice", avatar: "avatars/alice.png", text: "hi all", time: "10:00 AM", reactions: {} }
-        ],
+        general: [{ username: "Alice", avatar: "img/avatars/alice.png", text: "hi all", time: "10:00 AM", reactions: {}, file: null }],
         random: [
-            { username: "Bob", avatar: "avatars/bob.png", text: "birds are cool", time: "10:05 AM", reactions: {} },
-            { username: "Charlie", avatar: "avatars/charlie.png", text: "i guess so", time: "10:07 AM", reactions: {} }
+            { username: "Bob", avatar: "img/avatars/bob.png", text: "birds are cool", time: "10:05 AM", reactions: {}, file: null },
+            { username: "Charlie", avatar: "img/avatars/charlie.png", text: "i guess so", time: "10:07 AM", reactions: {}, file: null }
         ],
         tech: [
-            { username: "Charlie", avatar: "avatars/charlie.png", text: "my PSU blew up...", time: "10:10 AM", reactions: {} },
-            { username: "Alice", avatar: "avatars/alice.png", text: "RIP!", time: "10:12 AM", reactions: {} }
+            { username: "Charlie", avatar: "img/avatars/charlie.png", text: "my PSU blew up...", time: "10:10 AM", reactions: {}, file: null },
+            { username: "Alice", avatar: "img/avatars/alice.png", text: "RIP!", time: "10:12 AM", reactions: {}, file: null }
         ]
     };
 
@@ -59,9 +108,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    // SEND MESSAGE FUNCTIONALITY
     function sendMessage() {
         const messageText = inputField.value.trim();
-        if (messageText === "") return;
+        const file = fileInput.files.length > 0 ? fileInput.files[0] : null;
+
+        if (!messageText && !file) return;
 
         const activeChannel = document.querySelector(".channel.active")?.dataset.channel;
         if (!activeChannel) {
@@ -71,32 +123,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const messageData = {
             username: "You",
-            avatar: "avatars/user.png",
+            avatar: "img/avatars/user.png",
             text: messageText,
             time: new Date().toLocaleTimeString(),
-            reactions: {}
+            reactions: {},
+            file: file ? { name: file.name, type: file.type, url: URL.createObjectURL(file) } : null
         };
 
         channels[activeChannel].push(messageData);
         addMessageToChat(messageData);
+
         inputField.value = "";
+        fileInput.value = "";
+        filePreviewContainer.innerHTML = "";
     }
 
     function addMessageToChat(message) {
         const messageElement = document.createElement("div");
         messageElement.classList.add("message");
 
-        // Create avatar
         const avatar = document.createElement("div");
         avatar.classList.add("avatar");
         avatar.style.backgroundImage = `url('${message.avatar}')`;
 
-        // Create message content
         const messageContent = document.createElement("div");
         messageContent.classList.add("message-content");
         messageContent.innerHTML = `
             <span class="username">${message.username}</span>
             <p>${message.text}</p>
+            ${message.file ? displayFile(message.file) : ""}
             <span class="time">${message.time}</span>
             <div class="reactions"></div>
         `;
@@ -125,12 +180,18 @@ document.addEventListener("DOMContentLoaded", () => {
         updateReactionsUI(messageContent.querySelector(".reactions"), message.reactions);
     }
 
+    function displayFile(file) {
+        return file.type.startsWith("image/")
+            ? `<img src="${file.url}" class="chat-image" alt="Uploaded Image">`
+            : `<a href="${file.url}" target="_blank" class="chat-file">${file.name}</a>`;
+    }
+
+    // REACTION FUNCTIONALITY
     function showReactionPicker(reactionsContainer, message, button) {
-        document.querySelectorAll(".reaction-picker").forEach(el => el.remove());
+        closeAllPickers();
 
         const pickerContainer = document.createElement("div");
         pickerContainer.classList.add("emoji-picker", "reaction-picker");
-
         pickerContainer.style.position = "absolute";
         pickerContainer.style.top = `${button.offsetTop + 30}px`;
         pickerContainer.style.left = `${button.offsetLeft}px`;
@@ -140,26 +201,22 @@ document.addEventListener("DOMContentLoaded", () => {
             onEmojiSelect: (emoji) => {
                 addReaction(reactionsContainer, message, emoji.native);
                 pickerContainer.remove();
+                activePicker = null;
             }
         });
 
         pickerContainer.appendChild(reactionPicker);
         button.parentNode.appendChild(pickerContainer);
+        activePicker = pickerContainer;
     }
 
     function addReaction(reactionsContainer, message, emoji) {
-        if (!message.reactions[emoji]) {
-            message.reactions[emoji] = 1;
-        } else {
-            message.reactions[emoji]++;
-        }
-
+        message.reactions[emoji] = (message.reactions[emoji] || 0) + 1;
         updateReactionsUI(reactionsContainer, message.reactions);
     }
 
     function updateReactionsUI(reactionsContainer, reactions) {
         reactionsContainer.innerHTML = "";
-
         for (const [emoji, count] of Object.entries(reactions)) {
             const reactionElement = document.createElement("span");
             reactionElement.classList.add("reaction");
@@ -168,11 +225,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    function closeAllEmojiPickers() {
-        document.querySelectorAll(".reaction-picker").forEach(el => el.remove());
-    }
-
-    function closeReactionPickers() {
+    function closeAllPickers() {
+        if (activePicker) activePicker.remove();
+        activePicker = null;
         document.querySelectorAll(".reaction-picker").forEach(el => el.remove());
     }
 
