@@ -188,27 +188,44 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // REACTION FUNCTIONALITY
     function showReactionPicker(reactionsContainer, message, button) {
-        closeAllPickers();
+		closeAllPickers(); 
 
-        const pickerContainer = document.createElement("div");
-        pickerContainer.classList.add("emoji-picker", "reaction-picker");
-        pickerContainer.style.position = "absolute";
-        pickerContainer.style.top = `${button.offsetTop + 30}px`;
-        pickerContainer.style.left = `${button.offsetLeft}px`;
+		const pickerContainer = document.createElement("div");
+		pickerContainer.classList.add("emoji-picker", "reaction-picker");
 
-        const reactionPicker = new EmojiMart.Picker({
-            set: "apple",
-            onEmojiSelect: (emoji) => {
-                addReaction(reactionsContainer, message, emoji.native);
-                pickerContainer.remove();
-                activePicker = null;
-            }
-        });
+		// Attach picker inside the chat window instead of button parent
+		document.querySelector(".messages").appendChild(pickerContainer);
 
-        pickerContainer.appendChild(reactionPicker);
-        button.parentNode.appendChild(pickerContainer);
-        activePicker = pickerContainer;
-    }
+		const chatWindow = document.querySelector(".messages"); // The scrollable chat window
+		const buttonRect = button.getBoundingClientRect();
+		const chatRect = chatWindow.getBoundingClientRect();
+
+		// Default position: below the reaction button
+		let topOffset = button.offsetTop + 30;
+
+		// Ensure picker stays within the chat window
+		if (topOffset + 250 > chatWindow.scrollHeight) { 
+			topOffset = button.offsetTop - 250; // Move above if no space below
+		}
+
+		// Adjust position within chat window
+		pickerContainer.style.position = "absolute";
+		pickerContainer.style.top = `${topOffset}px`;
+		pickerContainer.style.left = `${button.offsetLeft}px`;
+
+		const reactionPicker = new EmojiMart.Picker({
+			set: "apple",
+			onEmojiSelect: (emoji) => {
+				addReaction(reactionsContainer, message, emoji.native);
+				pickerContainer.remove();
+				activePicker = null;
+			}
+		});
+
+		pickerContainer.appendChild(reactionPicker);
+		activePicker = pickerContainer;
+	}
+
 
     function addReaction(reactionsContainer, message, emoji) {
         message.reactions[emoji] = (message.reactions[emoji] || 0) + 1;
